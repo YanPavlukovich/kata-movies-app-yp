@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies } from '../../store/movies-slice';
-import { AppDispatch, RootState, store } from '../../store/store';
-import { MovieList } from '../movie-list/MovieList';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import moviesReducer from '../store/movies-slice';
+import { MoviesPage } from '../movies-page/MoviesPage';
 
-function App() {
-  const dispatch: AppDispatch = useDispatch();
-  const { data, status, error } = useSelector((state: RootState) => state.movies);
+const store = configureStore({
+  reducer: {
+    movies: moviesReducer,
+  },
+});
 
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
-
+const App = () => {
   return (
-    <div className="App">
-      <h1>Movies App</h1>
-      <MovieList movies={data} />
-    </div>
+    <Provider store={store}>
+      <div className="app">
+        <MoviesPage title="Popular Movies" />
+      </div>
+    </Provider>
   );
-}
+};
 
 export default App;

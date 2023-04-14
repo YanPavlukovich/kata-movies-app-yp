@@ -1,34 +1,32 @@
-import { Movie } from '../../store/movies-slice';
-import { List, Avatar } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, selectAllMovies } from '../../store/movies-slice';
-import { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchMovies, selectAllMovies, selectMoviesStatus } from '../store/movies-slice';
+// import MovieCard from './MovieCard';
 
-export type Props = {
-  movies: Movie[];
-};
-
-export const MovieList: FC<Props> = ({ movies }) => {
+export const MoviesList = () => {
   const dispatch = useDispatch();
-  const allMovies = useSelector(selectAllMovies);
+  const movies = useSelector(selectAllMovies);
+  const status = useSelector(selectMoviesStatus);
 
   useEffect(() => {
-    dispatch(fetchMovies());
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchMovies());
+    }
+  }, [status, dispatch]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div>Error loading movies</div>;
+  }
 
   return (
-    <List
-      itemLayout="horizontal"
-      dataSource={allMovies}
-      renderItem={(movie) => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Avatar src={movie.poster} />}
-            title={<a href="#">{movie.title}</a>}
-            description={movie.releaseYear}
-          />
-        </List.Item>
-      )}
-    />
+    <div className="movies-list">
+      {/* {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} />
+      ))} */}
+    </div>
   );
 };

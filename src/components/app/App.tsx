@@ -1,12 +1,20 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies, selectMovies } from '../../store/movies-slice';
 import { MovieList } from '../movie-list/MovieList';
 
-import './App.css';
-
 function App() {
+  const dispatch = useDispatch();
+  const movies = useSelector(selectMovies);
+
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
+
   return (
-    <div>
+    <div className="App">
       <h1>Movies App</h1>
-      <MovieList />
+      <MovieList movies={movies} />
     </div>
   );
 }

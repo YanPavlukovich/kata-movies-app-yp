@@ -1,49 +1,57 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { getMovies } from './../API/api';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppDispatch } from './../store';
 
 type Movie = {
   id: number;
   title: string;
-  overview: string;
+  releaseYear: number;
+  poster: string;
 }
 
 type MoviesState = {
-  movies: Movie[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  loading: boolean;
   error: string | null;
+  data: Movie[];
 }
 
 const initialState: MoviesState = {
-  movies: [],
-  status: 'idle',
+  loading: false,
   error: null,
+  data: [],
 };
 
-export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
-  const response = await axios.get(
-    'https://api.themoviedb.org/3/movie/550?api_key=77bfcb429bad8df2a83551668ae3fb0d',
-  );
-  return response.data.results;
-});
+export const selectMovies = (state: RootState) => state.movies.movies;
 
-const moviesSlice = createSlice({
+export const moviesSlice = createSlice({
   name: 'movies',
   initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchMovies.pending, state => {
-        state.status = 'loading';
-      })
-      .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.movies = action.payload;
-      })
-      .addCase(fetchMovies.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
+  reducers: {
+    fetchMoviesStart: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchMoviesSuccess: (state, action: PayloadAction<Movie[]>) => {
+      state.loading = false;
+      state.data = action.payload;
+    },
+    fetchMoviesFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
+
+export const { fetchMoviesStart, fetchMoviesSuccess, fetchMoviesFailure } = moviesSlice.actions;
+
+export const fetchMovies = () => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(fetchMoviesStart());
+    const movies = await getMovies();
+    dispatch(fetchMoviesSuccess(movies));
+  } catch (error) {
+    dispatch(fetchMoviesFailure(error.message));
+  }
+};
 
 export default moviesSlice.reducer;

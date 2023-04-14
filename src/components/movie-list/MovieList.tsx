@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import { fetchMovies, selectMovies } from '../../store/movies-slice';
 import { useEffect } from 'react';
 
-export type Props {
-	movies: Movie[];
-}
+export type Props = {
+  movies: Movie[];
+};
 
 export const MovieList = () => {
   const movies = useSelector(selectMovies);

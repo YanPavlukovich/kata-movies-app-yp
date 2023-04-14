@@ -1,6 +1,7 @@
-import { getMovies } from './../API/api';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppDispatch } from './../store';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getMovies } from '../API/api';
+import { RootState } from '../app/store';
+
 
 export type Movie = {
   id: number;
@@ -9,49 +10,46 @@ export type Movie = {
   poster: string;
 }
 
-type MoviesState = {
-  loading: boolean;
-  error: string | null;
+export type MoviesState = {
   data: Movie[];
+  status: 'idle' | 'loading' | 'failed';
+  error: string | null;
 }
 
 const initialState: MoviesState = {
-  loading: false,
-  error: null,
   data: [],
+  status: 'idle',
+  error: null,
 };
 
-export const selectMovies = (state: RootState) => state.movies.movies;
+export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
+  const response = await getMovies();
+  return response.data;
+});
 
 export const moviesSlice = createSlice({
   name: 'movies',
   initialState,
-  reducers: {
-    fetchMoviesStart: state => {
-      state.loading = true;
-      state.error = null;
-    },
-    fetchMoviesSuccess: (state, action: PayloadAction<Movie[]>) => {
-      state.loading = false;
-      state.data = action.payload;
-    },
-    fetchMoviesFailure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(fetchMovies.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(fetchMovies.fulfilled, (state, action: PayloadAction<Movie[]>) => {
+        state.status = 'idle';
+        state.data = action.payload;
+      })
+      .addCase(fetchMovies.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message ?? null;
+      });
   },
 });
 
-export const { fetchMoviesStart, fetchMoviesSuccess, fetchMoviesFailure } = moviesSlice.actions;
+export const selectAllMovies = (state: RootState) => state.movies.data;
 
-export const fetchMovies = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch(fetchMoviesStart());
-    const movies = await getMovies();
-    dispatch(fetchMoviesSuccess(movies));
-  } catch (error) {
-    dispatch(fetchMoviesFailure(error.message));
-  }
-};
+export const selectMovieById = (state: RootState, movieId: number) =>
+  state.movies.data.find(movie => movie.id === movieId);
 
 export default moviesSlice.reducer;

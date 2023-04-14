@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getMovies } from '../API/api';
 import { RootState } from '../app/store';
 
 
@@ -23,8 +22,9 @@ const initialState: MoviesState = {
 };
 
 export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
-  const response = await getMovies();
-  return response.data;
+  const response = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=84b62f837d7dcd94e186a4b8aa96bddd&language=en-US&page=1');
+  const data = await response.json();
+  return data.results;
 });
 
 export const moviesSlice = createSlice({
@@ -46,6 +46,8 @@ export const moviesSlice = createSlice({
       });
   },
 });
+
+export const selectMovies = (state: RootState) => state.movies.movies;
 
 export const selectAllMovies = (state: RootState) => state.movies.data;
 

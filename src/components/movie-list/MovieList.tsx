@@ -1,15 +1,16 @@
 import { Movie } from '../../store/movies-slice';
-import { List, Avatar, Space } from 'antd';
-import { useSelector } from 'react-redux';
-import { fetchMovies, selectMovies } from '../../store/movies-slice';
-import { useEffect } from 'react';
+import { List, Avatar } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies, selectAllMovies } from '../../store/movies-slice';
+import { FC, useEffect } from 'react';
 
 export type Props = {
   movies: Movie[];
 };
 
-export const MovieList = () => {
-  const movies = useSelector(selectMovies);
+export const MovieList: FC<Props> = ({ movies }) => {
+  const dispatch = useDispatch();
+  const allMovies = useSelector(selectAllMovies);
 
   useEffect(() => {
     dispatch(fetchMovies());
@@ -18,13 +19,13 @@ export const MovieList = () => {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={movies}
+      dataSource={allMovies}
       renderItem={(movie) => (
         <List.Item>
           <List.Item.Meta
-            avatar={<Avatar src={movie.posterUrl} />}
+            avatar={<Avatar src={movie.poster} />}
             title={<a href="#">{movie.title}</a>}
-            description={movie.year}
+            description={movie.releaseYear}
           />
         </List.Item>
       )}

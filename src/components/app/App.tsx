@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, selectAllMovies } from '../../store/movies-slice';
+import { fetchMovies } from '../../store/movies-slice';
+import { AppDispatch, RootState, store } from '../../store/store';
 import { MovieList } from '../movie-list/MovieList';
 
 function App() {
-  const dispatch = useDispatch();
-  const movies = useSelector(selectAllMovies);
+  const dispatch: AppDispatch = useDispatch();
+  const { data, status, error } = useSelector((state: RootState) => state.movies);
 
   useEffect(() => {
     dispatch(fetchMovies());
@@ -14,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <h1>Movies App</h1>
-      <MovieList movies={movies} />
+      <MovieList movies={data} />
     </div>
   );
 }

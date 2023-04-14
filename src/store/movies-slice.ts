@@ -2,7 +2,7 @@ import { getMovies } from './../API/api';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from './../store';
 
-type Movie = {
+export type Movie = {
   id: number;
   title: string;
   releaseYear: number;

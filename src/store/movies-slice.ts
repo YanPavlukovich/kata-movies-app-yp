@@ -40,7 +40,7 @@ export const { getMoviesStart, getMoviesSuccess, getMoviesFailure } = moviesSlic
 
 export default moviesSlice.reducer;
 
-export const fetchMoviesThunk = (searchQuery: string): AppThunk => async (dispatch: AppDispatch) => {
+export const fetchMoviesThunk = (searchQuery: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch(getMoviesStart());
     const movies = await fetchMoviesApi(searchQuery);

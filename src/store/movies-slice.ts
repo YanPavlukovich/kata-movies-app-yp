@@ -1,8 +1,7 @@
-import { Movie } from './../types/movie';
-import { getMovies } from './../services/movieService';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from '../store';
-
+import { AppDispatch, RootState } from './store';
+import { Movie } from './../types/movie';
+import { fetchMoviesApi } from '../API/api';
 
 
 type MoviesState = {
@@ -41,12 +40,17 @@ export const { getMoviesStart, getMoviesSuccess, getMoviesFailure } = moviesSlic
 
 export default moviesSlice.reducer;
 
-export const fetchMoviesThunk = (searchQuery: string): AppThunk => async (dispatch) => {
+export const fetchMoviesThunk = (searchQuery: string): AppThunk => async (dispatch: AppDispatch) => {
   try {
     dispatch(getMoviesStart());
-    const movies = await getMovies(searchQuery);
+    const movies = await fetchMoviesApi(searchQuery);
     dispatch(getMoviesSuccess(movies));
   } catch (error) {
-    dispatch(getMoviesFailure(error.message));
+    dispatch(getMoviesFailure(String(error)));
+
   }
 };
+
+export const selectMovies = (state: RootState) => state.movies.movies;
+export const selectMoviesStatus = (state: RootState) => state.movies.status;
+export const selectMoviesError = (state: RootState) => state.movies.error;

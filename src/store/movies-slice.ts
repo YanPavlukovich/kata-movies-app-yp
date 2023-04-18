@@ -1,7 +1,8 @@
+import { Movie } from './../types/movie';
 import { getMovies } from './../services/movieService';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
-import { Movie } from '../../models/movie';
+
 
 
 type MoviesState = {

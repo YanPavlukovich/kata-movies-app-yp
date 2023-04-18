@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from '../searchSlice';
-import MovieList from '../components/MovieList';
-import SearchBox from '../components/SearchBox';
+import MoviesList from '../movie-list/MovieList';
+import SearchBox from '../search-box/SearchBox';
 import { fetchMovies } from '../api/movies';
 
 const MoviesPage = () => {

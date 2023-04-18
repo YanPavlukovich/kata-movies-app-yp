@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '../searchSlice';
-import MoviesList from '../movie-list/MovieList';
+import { setSearchQuerySlice } from '../../store/search-slice';
+import MovieList from '../movie-list/MovieList';
 import SearchBox from '../search-box/SearchBox';
-import { fetchMovies } from '../api/movies';
+import { fetchMoviesApi } from '../../API/api';
+import { Movie } from '../../types/movie';
 
 const MoviesPage = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = (searchQuery: string) => {
-    dispatch(setSearchQuery(searchQuery));
-    fetchMovies(searchQuery)
-      .then((movies) => {
+    dispatch(setSearchQuerySlice(searchQuery));
+    fetchMoviesApi(searchQuery)
+      .then((movies: Movie[]) => {
         setMovies(movies);
         setErrorMessage('');
       })
@@ -25,7 +26,7 @@ const MoviesPage = () => {
 
   return (
     <>
-      <SearchBox handleSubmit={handleSubmit} />
+      <SearchBox onSubmit={handleSubmit} />
       {errorMessage ? <div className="error">{errorMessage}</div> : <MovieList movies={movies} />}
     </>
   );

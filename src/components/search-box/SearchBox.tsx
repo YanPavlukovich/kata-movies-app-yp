@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '../../store/search-slice';
 
-const SearchBox = () => {
-  const dispatch = useDispatch();
+type SearchBoxProps = {
+  onSubmit: (searchQuery: string) => void;
+};
+
+const SearchBox: React.FC<SearchBoxProps> = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +13,7 @@ const SearchBox = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(setSearchQuery(query));
+    onSubmit(query);
   };
 
   return (

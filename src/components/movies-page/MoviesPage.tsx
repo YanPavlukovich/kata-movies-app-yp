@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMoviesApi } from '../../API/api';
-import { RootState } from '../../store/root-reducers';
+import { RootState } from '../app/root-reducers';
 import { setSearchQuery } from '../../store/search-slice';
 import { Movie } from '../../models/movie';
 import SearchBox from '../search-box/SearchBox';

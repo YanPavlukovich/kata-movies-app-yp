@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../../store/search-slice';
-import { RootState } from '../../store/root-reducers';
+import { RootState } from '../app/root-reducers';
 
 const SearchBox = () => {
   const dispatch = useDispatch();

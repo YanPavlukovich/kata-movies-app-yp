@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import moviesReducer from './movies-slice';
+import rootReducer from './root-reducers';
 
-export const store = configureStore({
-  reducer: {
-    movies: moviesReducer,
-  },
+const store = configureStore({
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
+export default store;

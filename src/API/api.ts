@@ -1,8 +1,12 @@
-import axios from 'axios';
+const API_KEY = '77bfcb429bad8df2a83551668ae3fb0d';
+const BASE_URL = 'https://api.themoviedb.org/3';
 
-const API_URL = 'https://api.themoviedb.org/3';
-
-export const getMovies = async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
+export const fetchMoviesApi = async (searchQuery: string): Promise<T> => {
+  try {
+    const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchQuery}`);
+    const data = await response.json();
+    return data.results as T;
+  } catch (error) {
+    console.error(error);
+  }
 };

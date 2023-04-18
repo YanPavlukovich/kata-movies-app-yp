@@ -1,14 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MoviesPage from '../movies-page/MoviesPage';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import { MoviesPage } from './features/movies/MoviesPage';
 
-function App() {
+export const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" exact component={MoviesPage} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <MoviesPage />
+    </Provider>
   );
-}
-
-export default App;
+};

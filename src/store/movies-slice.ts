@@ -1,56 +1,51 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store'
+import { getMovies } from './../services/movieService';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppThunk } from '../store';
+import { Movie } from '../../models/movie';
 
-export type Movie = {
-  id: number;
-  title: string;
-  releaseYear: number;
-  poster: string;
-};
 
-export type MoviesState = {
-  data: Movie[];
-  status: 'idle' | 'loading' | 'failed';
+type MoviesState = {
+  movies: Movie[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-};
+}
 
 const initialState: MoviesState = {
-  data: [],
+  movies: [],
   status: 'idle',
   error: null,
 };
 
-export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
-  const response = await fetch(
-    'https://api.themoviedb.org/3/movie/popular?api_key=84b62f837d7dcd94e186a4b8aa96bddd&language=en-US&page=1'
-  );
-  const data = await response.json();
-  return data.results;
-});
-
-export const moviesSlice = createSlice({
+const moviesSlice = createSlice({
   name: 'movies',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchMovies.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchMovies.fulfilled, (state, action: PayloadAction<Movie[]>) => {
-        state.status = 'idle';
-        state.data = action.payload;
-      })
-      .addCase(fetchMovies.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message ?? null;
-      });
+  reducers: {
+    getMoviesStart(state) {
+      state.status = 'loading';
+      state.movies = [];
+      state.error = null;
+    },
+    getMoviesSuccess(state, action: PayloadAction<Movie[]>) {
+      state.status = 'succeeded';
+      state.movies = action.payload;
+    },
+    getMoviesFailure(state, action: PayloadAction<string>) {
+      state.status = 'failed';
+      state.error = action.payload;
+    },
   },
 });
 
-export const selectMovies = (state: RootState) => state.movies.data;
-
-export const selectMovieById = (state: RootState, movieId: number) =>
-  state.movies.data.find((movie) => movie.id === movieId);
+export const { getMoviesStart, getMoviesSuccess, getMoviesFailure } = moviesSlice.actions;
 
 export default moviesSlice.reducer;
+
+export const fetchMoviesThunk = (searchQuery: string): AppThunk => async (dispatch) => {
+  try {
+    dispatch(getMoviesStart());
+    const movies = await getMovies(searchQuery);
+    dispatch(getMoviesSuccess(movies));
+  } catch (error) {
+    dispatch(getMoviesFailure(error.message));
+  }
+};

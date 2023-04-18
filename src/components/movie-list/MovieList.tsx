@@ -1,21 +1,34 @@
-import React from 'react';
-import { Movie } from '../../types/movie';
-import MovieListItem from '../movie-list-item/MovieListItem';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import { fetchMoviesApi } from '../../API/api';
+import { setSearchQuery } from '../../store/search-slice';
 
-type MovieListProps = {
-  movies: Movie[];
-};
+const MoviesList: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const movies = useSelector((state: RootState) => state.movies.movies);
 
-const MovieList: React.FC<MovieListProps> = ({ movies }) => {
+  const dispatch = useDispatch();
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(setSearchQuery(searchQuery));
+    fetchMoviesApi(searchQuery);
+  };
+
   return (
-    <ul>
-      {movies.map((movie) => (
-        <li key={movie.id}>
-          <MovieListItem movie={movie} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <form onSubmit={handleSearch}>
+        <input type="text" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
+        <button type="submit">Search</button>
+      </form>
+      <ul>
+        {movies.map((movie) => (
+          <li key={movie.id}>{movie.title}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default MovieList;
+export default MoviesList;

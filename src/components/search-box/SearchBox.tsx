@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SearchBox.scss';
 
 type SearchBoxProps = {
   onSubmit: (searchQuery: string) => void;

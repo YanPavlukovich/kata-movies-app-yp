@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/root-reducers';
 import { fetchMoviesApi } from '../../API/api';
 import { Movie } from '../../types/movie';
+import './MovieList.scss';
 
 type Props = {
   movies: Movie[];

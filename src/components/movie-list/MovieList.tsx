@@ -1,35 +1,21 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Movie, fetchMovies, selectMovies } from '../../store/movies-slice';
-import MovieCard from '../movie-card/MovieCard';
-import { RootState } from '../../store';
+import React from 'react';
+import { Movie } from '../../types/movie';
+import MovieListItem from '../movie-list-item/MovieListItem';
 
-const MoviesList: React.FC<Movie> = () => {
-  const dispatch = useDispatch();
-  const movies = useSelector(selectMovies);
-  const status = useSelector((state: RootState) => state.movies.status);
+type MovieListProps = {
+  movies: Movie[];
+};
 
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchMovies());
-    }
-  }, [status, dispatch]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error loading movies</div>;
-  }
-
+const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   return (
-    <div className="movies-list">
+    <ul>
       {movies.map((movie) => (
-        <MovieCard key={movie.id} movieId={movie.id} />
+        <li key={movie.id}>
+          <MovieListItem movie={movie} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
-export default MoviesList;
+export default MovieList;

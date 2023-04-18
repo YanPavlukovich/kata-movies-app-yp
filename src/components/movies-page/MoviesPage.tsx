@@ -1,17 +1,30 @@
-import React from 'react';
-import MoviesList from '../movie-list/MovieList';
-import { Movie } from '../../store/movies-slice';
+import React, { useState, useEffect } from 'react';
+import { Layout } from 'antd';
+import MovieList from '../movie-list/MovieList';
+import { Movie } from '../../types/movie';
+import { getMovies } from '../../services/movieService';
 
-export type MoviesPageProps = {
-  title: string;
-  movies: Movie[];
-};
+const { Content } = Layout;
 
-export const MoviesPage: React.FC<MoviesPageProps> = ({ title, movies }) => {
+const MoviesPage: React.FC = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const movies = await getMovies();
+      setMovies(movies);
+    };
+    fetchMovies();
+  }, []);
+
   return (
-    <div>
-      <h1>{title}</h1>
-      <MoviesList movies={movies} />
-    </div>
+    <Content style={{ padding: '0 50px' }}>
+      <div className="site-layout-content">
+        <h1>Movies</h1>
+        <MovieList movies={movies} />
+      </div>
+    </Content>
   );
 };
+
+export default MoviesPage;

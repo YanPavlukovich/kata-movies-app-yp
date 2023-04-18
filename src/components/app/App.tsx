@@ -1,23 +1,14 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { moviesSlice } from '../../store/movies-slice';
-import { MoviesPage } from '../movies-page/MoviesPage';
-import { configureStore } from '@reduxjs/toolkit';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MoviesPage from '../movies-page/MoviesPage';
 
-const store = configureStore({
-  reducer: {
-    movies: moviesSlice.reducer,
-  },
-});
-
-const App = () => {
+function App() {
   return (
-    <Provider store={store}>
-      <div className="app">
-        <MoviesPage title="Popular Movies" />
-      </div>
-    </Provider>
+    <Router>
+      <Routes>
+        <Route path="/" exact component={MoviesPage} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

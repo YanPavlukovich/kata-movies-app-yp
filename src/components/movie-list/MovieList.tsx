@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMovies, selectAllMovies, selectMoviesStatus } from '../store/movies-slice';
-// import MovieCard from './MovieCard';
+import { Movie, fetchMovies, selectMovies } from '../../store/movies-slice';
+import MovieCard from '../movie-card/MovieCard';
+import { RootState } from '../../store';
 
-export const MoviesList = () => {
+const MoviesList: React.FC<Movie> = () => {
   const dispatch = useDispatch();
-  const movies = useSelector(selectAllMovies);
-  const status = useSelector(selectMoviesStatus);
+  const movies = useSelector(selectMovies);
+  const status = useSelector((state: RootState) => state.movies.status);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -24,9 +25,11 @@ export const MoviesList = () => {
 
   return (
     <div className="movies-list">
-      {/* {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))} */}
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movieId={movie.id} />
+      ))}
     </div>
   );
 };
+
+export default MoviesList;

@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMoviesApi } from '../../API/api';
-import { RootState } from '../app/root-reducers';
-import { setSearchQuery } from '../../store/search-slice';
-import { Movie } from '../../models/movie';
-import SearchBox from '../search-box/SearchBox';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from '../searchSlice';
+import MovieList from '../components/MovieList';
+import SearchBox from '../components/SearchBox';
+import { fetchMovies } from '../api/movies';
 
-const MoviesPage: React.FC = () => {
+const MoviesPage = () => {
+  const [movies, setMovies] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
-  const movies = useSelector((state: RootState) => state.movies.movies);
-  const searchQuery = useSelector((state: RootState) => state.search.query);
 
-  useEffect(() => {
-    dispatch(fetchMoviesApi(searchQuery));
-  }, [dispatch, searchQuery]);
-
-  const handleSearch = (query: string) => {
-    dispatch(setSearchQuery(query));
+  const handleSubmit = (searchQuery: string) => {
+    dispatch(setSearchQuery(searchQuery));
+    fetchMovies(searchQuery)
+      .then((movies) => {
+        setMovies(movies);
+        setErrorMessage('');
+      })
+      .catch((error) => {
+        setMovies([]);
+        setErrorMessage(error.message);
+      });
   };
 
   return (
-    <div>
-      <SearchBox onSearch={handleSearch} />
-      <div className="movies-container">
-        {movies.map((movie: Movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
-    </div>
+    <>
+      <SearchBox handleSubmit={handleSubmit} />
+      {errorMessage ? <div className="error">{errorMessage}</div> : <MovieList movies={movies} />}
+    </>
   );
 };
 

@@ -1,19 +1,25 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchQuery } from '../../store/search-slice';
-import { RootState } from '../app/root-reducers';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from '../../store';
 
 const SearchBox = () => {
   const dispatch = useDispatch();
-  const searchQuery = useSelector((state: RootState) => state.search.query);
+  const [query, setQuery] = useState('');
 
-  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(event.target.value));
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(setSearchQuery(query));
   };
 
   return (
-    <div className="search-box">
-      <input type="text" placeholder="Search movies..." value={searchQuery} onChange={handleSearchInputChange} />
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={query} onChange={handleInputChange} />
+      <button type="submit">Search</button>
+    </form>
   );
 };
 

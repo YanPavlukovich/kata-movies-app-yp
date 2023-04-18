@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '../app/root-reducers';
 import { fetchMoviesApi } from '../../API/api';
 import { setSearchQuery } from '../../store/search-slice';
 
 const MoviesList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const movies = useSelector((state: RootState) => state.movies.movies);
-
+  const query = useSelector((state: RootState) => state.search.query);
   const dispatch = useDispatch();
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(setSearchQuery(searchQuery));
-    fetchMoviesApi(searchQuery);
+    dispatch(setSearchQuery({ query: searchQuery }));
   };
+
+  useEffect(() => {
+    dispatch(fetchMoviesApi(query));
+  }, [query, dispatch]);
 
   return (
     <div>

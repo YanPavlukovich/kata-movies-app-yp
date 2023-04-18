@@ -8,19 +8,19 @@ type MovieListItemProps = {
 };
 
 const MovieListItem: React.FC<MovieListItemProps> = ({ movie }) => {
-  const { Title, Year, Poster, imdbID, Plot, Genre } = movie;
+  const { title, release_date: year, poster_path: poster, overview: plot, genres: genre, id } = movie;
 
   return (
-    <Card cover={<img alt={Title} src={Poster} />} actions={[<Link to={`/movies/${imdbID}`}>Подробнее</Link>]}>
+    <Card cover={<img alt={title} src={poster ?? ''} />} actions={[<Link to={`/movies/${id}`}>Подробнее</Link>]}>
       <Card.Meta
-        title={Title}
+        title={title}
         description={
           <>
             <Typography.Paragraph ellipsis={{ rows: 2, expandable: true }}>
-              {truncateText(Plot, 150)}
+              {truncateText(plot, 150)}
             </Typography.Paragraph>
-            <Typography.Text>{Genre}</Typography.Text>
-            <Typography.Text>{Year}</Typography.Text>
+            <Typography.Text>{genre.join(', ')}</Typography.Text>
+            <Typography.Text>{year?.split('-')[0]}</Typography.Text>
           </>
         }
       />

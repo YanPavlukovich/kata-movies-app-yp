@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { store } from '../../store/store';
 import './App.css';
-import MoviesPage from './components/MoviesPage';
+import MoviesPage from '../movies-page/MoviesPage';
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="app">
         <MoviesPage />
       </div>
     </Provider>

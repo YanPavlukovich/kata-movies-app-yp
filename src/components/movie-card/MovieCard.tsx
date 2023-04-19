@@ -10,7 +10,7 @@ import './movie-card.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addRate, selectRated } from '../../store/slices/rated-slice';
 import { truncate } from 'lodash';
-import { RatingRing } from '../rating-stars/RatingStars';
+import { RatingRing } from '../rating-ring/RatingRing';
 
 const { Title, Paragraph } = Typography;
 

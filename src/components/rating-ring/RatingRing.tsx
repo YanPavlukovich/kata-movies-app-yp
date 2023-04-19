@@ -1,4 +1,4 @@
-import './rating-stars.scss';
+import './rating-ring.scss';
 
 type Props = {
   rating: number;

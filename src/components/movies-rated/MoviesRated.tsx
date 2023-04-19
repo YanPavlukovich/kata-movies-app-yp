@@ -22,7 +22,7 @@ const RatedMovies = () => {
   };
 
   return (
-    <div className={'rated-movies'}>
+    <div className={'movies-rated'}>
       <div className="movie-list">{RatedMovies}</div>
       <Pagination
         showSizeChanger={false}

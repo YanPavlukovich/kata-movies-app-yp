@@ -14,7 +14,7 @@ const ErrorText = () => {
   }
 
   return (
-    <div className={'error-message'}>
+    <div className={'error-text'}>
       <Alert message={text} type="error" description={description} />
     </div>
   );

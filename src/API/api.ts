@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie } from '../types/movies';
 
 const API_KEY = '77bfcb429bad8df2a83551668ae3fb0d';
 const BASE_URL = 'https://api.themoviedb.org/3';

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import './rating-ring.scss';
+import './rating-stars.scss';
 
 type Props = {
   rating: number;

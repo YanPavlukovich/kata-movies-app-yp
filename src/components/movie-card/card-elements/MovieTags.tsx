@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { GenreObject } from '../../../types/genres';
-import { useAppSelector } from '../../../store/hooks';
-import { selectGenres } from '../../../store/reducers/genres-reducer';
+import { useAppSelector } from '../../../hooks/hooks';
+import { selectGenres } from '../../../store/slices/genres-slice';
 
 import { Tag } from 'antd';
 

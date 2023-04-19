@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { selectRated, selectRatedMap } from '../../store/slices/rated-slice';
 import { useAppSelector } from '../../hooks/hooks';
 import { Pagination } from 'antd';
 import MovieCard from '../movie-card/MovieCard';
 
-import './rated-movies.scss';
+import './movies-rated.scss';
 
 const RatedMovies = () => {
   const rated = useAppSelector(selectRated);

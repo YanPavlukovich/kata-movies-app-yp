@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MovieObject } from '../../types/movies';
 
-import MovieTags from './components/movie-tags';
-import MovieReleaseDate from './components/movie-release-date';
-import MoviePoster from './components/movie-poster';
+import MovieTags from './card-elements/MovieTags';
+import MovieReleaseDate from './card-elements/MovieReleaseDate';
+import MoviePoster from './card-elements/MoviePoster';
 import { Rate, Typography } from 'antd';
 
 import './movie-card.scss';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addRate, selectRated } from '../../store/reducers/rated-reducer';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { addRate, selectRated } from '../../store/slices/rated-slice';
 import { truncate } from 'lodash';
-import { RatingRing } from '../rating-ring/rating-ring';
+import { RatingRing } from '../rating-stars/RatingStars';
 
 const { Title, Paragraph } = Typography;
 

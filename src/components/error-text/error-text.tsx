@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAppSelector } from '../../store/hooks';
-import { selectError } from '../../store/reducers/error-reducer';
+import { useAppSelector } from '../../hooks/hooks';
+import { selectError } from '../../store/slices/error-slice';
 
 import { Alert } from 'antd';
 
-import './error-message.scss';
+import './error-text.scss';
 
 const ErrorText = () => {
   const { active, description, text } = useAppSelector(selectError).error;

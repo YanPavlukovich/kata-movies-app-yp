@@ -1,12 +1,11 @@
-import React from 'react';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../hooks/hooks';
 import { MovieObject } from '../../types/movies';
 
 import './movie-list.scss';
 
-import MovieCard from '../movie-card/movie-card';
+import MovieCard from '../movie-card/MovieCard';
 import { Spin } from 'antd';
-import { selectLoading, selectMovies } from '../../store/reducers/movies-reducer';
+import { selectLoading, selectMovies } from '../../store/slices/movies-slice';
 
 const MovieList = () => {
   const loading = useAppSelector(selectLoading);

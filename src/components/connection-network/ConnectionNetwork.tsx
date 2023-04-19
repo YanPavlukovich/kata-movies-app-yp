@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
 import { removeError, setError } from '../../store/slices/error-slice';
 

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Input, Pagination } from 'antd';
-import MovieList from '../movie-list/movie-list';
+import MovieList from '../movie-list/MovieList';
 import { debounce } from 'lodash';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchMovies, selectPage, selectQuery, selectTotalPages } from '../../store/reducers/movies-reducer';
-import { fetchGenres } from '../../store/reducers/genres-reducer';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { fetchMovies, selectPage, selectQuery, selectTotalPages } from '../../store/slices/movies-slice';
+import { fetchGenres } from '../../store/slices/genres-slice';
 
-import './search.scss';
+import './search-box.scss';
 
 const Search = () => {
   const dispatch = useAppDispatch();

@@ -1,11 +1,9 @@
-import React from 'react';
-
-import './App.scss';
+import './app.scss';
 
 import Search from '../search-box/SearchBox';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import RatedMovies from '../rated-movies/rated-movies';
+import RatedMovies from '../movies-rated/MoviesRated';
 import ErrorText from '../error-text/error-text';
 
 const App = () => {

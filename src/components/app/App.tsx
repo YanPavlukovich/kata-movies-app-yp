@@ -2,11 +2,11 @@ import React from 'react';
 
 import './App.scss';
 
-import ErrorMessage from '../error-message/error-message';
-import Search from '../search/search';
+import Search from '../search-box/SearchBox';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import RatedMovies from '../rated-movies/rated-movies';
+import ErrorText from '../error-text/error-text';
 
 const App = () => {
   const items: TabsProps['items'] = [
@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <ErrorMessage />
+      <ErrorText />
       <Tabs defaultActiveKey="1" items={items} centered={true} />
     </div>
   );

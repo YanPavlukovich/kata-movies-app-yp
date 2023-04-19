@@ -6,7 +6,7 @@ import { Alert } from 'antd';
 
 import './error-message.scss';
 
-const ErrorMessage = () => {
+const ErrorText = () => {
   const { active, description, text } = useAppSelector(selectError).error;
 
   if (!active) {
@@ -20,4 +20,4 @@ const ErrorMessage = () => {
   );
 };
 
-export default ErrorMessage;
+export default ErrorText;

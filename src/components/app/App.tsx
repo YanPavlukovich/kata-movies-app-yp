@@ -1,17 +1,33 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store';
-import './App.scss';
-import MoviesPage from '../movies-page/MoviesPage';
 
-function App() {
+import './App.scss';
+
+import ErrorMessage from '../error-message/error-message';
+import Search from '../search/search';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
+import RatedMovies from '../rated-movies/rated-movies';
+
+const App = () => {
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: 'Search',
+      children: <Search />,
+    },
+    {
+      key: '2',
+      label: 'Rated',
+      children: <RatedMovies />,
+    },
+  ];
+
   return (
-    <Provider store={store}>
-      <div className="app">
-        <MoviesPage />
-      </div>
-    </Provider>
+    <div className="app">
+      <ErrorMessage />
+      <Tabs defaultActiveKey="1" items={items} centered={true} />
+    </div>
   );
-}
+};
 
 export default App;

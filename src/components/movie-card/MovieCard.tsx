@@ -18,6 +18,11 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
       <div className="card-body">
         <h5 className="card-title">{movie.title}</h5>
         <p className="card-text">{movie.overview}</p>
+        <p className="card-text">
+          Rating: {movie.vote_average} ({movie.vote_count} votes)
+        </p>
+        <p className="card-text">Release date: {movie.release_date}</p>
+        <p className="card-text">Genres: {movie.genres.join(', ')}</p>
       </div>
     </div>
   );

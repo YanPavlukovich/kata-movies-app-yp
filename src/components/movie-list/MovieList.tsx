@@ -1,30 +1,29 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '../app/root-reducers';
-import { fetchMoviesApi } from '../../API/api';
+import MovieCard from '../movie-card/MovieCard';
 import { Movie } from '../../types/movie';
+
 import './MovieList.scss';
 
-type Props = {
-  movies: Movie[];
+type MoviesState = {
+  movies?: {
+    results: Movie[];
+  };
 };
 
-const MovieList: React.FC<Props> = ({ movies }) => {
+const MovieList: React.FC = () => {
   const query = useSelector((state: RootState) => state.search.query);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    fetchMoviesApi(query).then((movies) => {
-      dispatch({ type: 'movies/setMovies', payload: movies });
-    });
-  }, [query, dispatch]);
+  const movies = useSelector((state: RootState) =>
+    state.movies?.results?.filter((movie) => movie.title.toLowerCase().includes(query.toLowerCase()))
+  );
 
   return (
-    <ul>
-      {movies.map((movie) => (
-        <li key={movie.id}>{movie.title}</li>
+    <div className="movie-list">
+      {movies?.map((movie: Movie) => (
+        <MovieCard key={movie.id} movie={movie} />
       ))}
-    </ul>
+    </div>
   );
 };
 

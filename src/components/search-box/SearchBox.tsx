@@ -1,28 +1,59 @@
-import React, { useState } from 'react';
-import './SearchBox.scss';
+import React, { useEffect } from 'react';
+import { Input, Pagination } from 'antd';
+import MovieList from '../movie-list/movie-list';
+import { debounce } from 'lodash';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchMovies, selectPage, selectQuery, selectTotalPages } from '../../store/reducers/movies-reducer';
+import { fetchGenres } from '../../store/reducers/genres-reducer';
 
-type SearchBoxProps = {
-  onSubmit: (searchQuery: string) => void;
-};
+import './search.scss';
 
-const SearchBox: React.FC<SearchBoxProps> = ({ onSubmit }) => {
-  const [query, setQuery] = useState('');
+const Search = () => {
+  const dispatch = useAppDispatch();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+  const totalPages = useAppSelector(selectTotalPages);
+  const currentPage = useAppSelector(selectPage);
+  const currentQuery = useAppSelector(selectQuery);
+
+  useEffect(() => {
+    dispatch(fetchMovies({ query: 'return', page: 1 }));
+    dispatch(fetchGenres());
+  }, []);
+
+  const searchMovie = debounce(function (query: string) {
+    dispatch(fetchMovies({ query, page: 1 }));
+  }, 500);
+
+  const onSearchInput = (e: React.BaseSyntheticEvent) => {
+    const targetInput: HTMLInputElement = e.target;
+    const query = targetInput.value;
+
+    if (query) {
+      searchMovie(query);
+    } else {
+      searchMovie('return');
+    }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(query);
+  const paginationHandler = (page: number) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    dispatch(fetchMovies({ query: currentQuery, page }));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" value={query} onChange={handleInputChange} />
-      <button type="submit">Search</button>
-    </form>
+    <div className={'search'}>
+      <Input placeholder="Type to search" size="large" onChange={onSearchInput} />
+      <MovieList />
+      <Pagination
+        showSizeChanger={false}
+        pageSize={1}
+        current={currentPage}
+        total={totalPages}
+        onChange={paginationHandler}
+        hideOnSinglePage
+      />
+    </div>
   );
 };
 
-export default SearchBox;
+export default Search;

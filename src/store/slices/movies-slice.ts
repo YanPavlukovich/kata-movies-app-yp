@@ -1,7 +1,7 @@
 import { MovieObject } from '../../types/movies';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { getMovies } from '../../movie-api/movies';
+import { getMovies } from '../../API/movies-api';
 
 export type MoviesState = {
   query: string;

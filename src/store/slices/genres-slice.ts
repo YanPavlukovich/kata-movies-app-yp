@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { GenreObject } from '../../types/genres';
-import { getGenres } from '../../movie-api/genres';
+import { getGenres } from '../../API/genres-api';
 
 export type GenresState = {
   genres: GenreObject[];

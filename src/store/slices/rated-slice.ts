@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { RatedMovie } from '../../types/rate-movies';
+import { RatedMovie } from '../../types/rated-movies';
 
 type RatedState = {
   ratedMovies: {

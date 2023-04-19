@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import { useAppDispatch } from '../../store/hooks';
-import { removeError, setError } from '../../store/reducers/error-reducer';
+import { useAppDispatch } from '../../hooks/hooks';
+import { removeError, setError } from '../../store/slices/error-slice';
 
 function ConnectionNetwork(props: PropsWithChildren) {
   const { children } = props;

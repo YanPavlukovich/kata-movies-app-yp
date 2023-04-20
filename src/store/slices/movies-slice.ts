@@ -11,6 +11,9 @@ export type MoviesState = {
   loading: boolean;
 };
 
+type SortField = 'title' | 'releaseDate';
+
+
 const initialState: MoviesState = {
   query: '',
   movies: [],
@@ -22,6 +25,20 @@ const initialState: MoviesState = {
 export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (action: { query: string; page: number }) => {
   return await getMovies(action.query, action.page);
 });
+
+export const sortMovies = createAsyncThunk('movies/sortMovies', async (sortField: SortField, { getState }) => {
+  const { movies } = (getState() as { movies: MoviesState }).movies;
+
+  const sortedMovies = [...movies].sort((a, b) => {
+    if (a[sortField] < b[sortField]) return -1;
+    if (a[sortField] > b[sortField]) return 1;
+    return 0;
+  });
+
+  return { movies: sortedMovies };
+});
+
+
 
 export const movieSlice = createSlice({
   name: 'movies',
@@ -39,6 +56,9 @@ export const movieSlice = createSlice({
       state.totalPages = totalPages;
       state.page = page;
       state.query = query;
+    });
+    builder.addCase(sortMovies.fulfilled, (state, action: PayloadAction<{ movies: MovieObject[] }>) => {
+      state.movies = action.payload.movies;
     });
   },
 });

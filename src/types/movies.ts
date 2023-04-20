@@ -26,3 +26,5 @@ export type MovieObject = {
   usersRating: number;
   genreIds: number[];
 };
+
+export type SortField = 'releaseDate' | 'title';

@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { MovieObject, SortField } from '../../types/movies';
+import { useAppSelector } from '../../hooks/hooks';
+import { MovieObject } from '../../types/movies';
 
 import './movie-list.scss';
 
 import MovieCard from '../movie-card/MovieCard';
 import MovieListHeader from './movie-list-header/MovieLstHeader';
 import { Spin } from 'antd';
-import { selectLoading, selectMovies, fetchMovies, sortMovies } from '../../store/slices/movies-slice';
+import { selectLoading, selectMovies, fetchMovies } from '../../store/slices/movies-slice';
+import { useSortMovies } from '../../hooks/use-sort-movies';
 
 const MovieList = () => {
-  const dispatch = useAppDispatch();
+  const { dispatch, handleSort } = useSortMovies();
   const loading = useAppSelector(selectLoading);
   const movies = useAppSelector(selectMovies);
   const isEmpty = !movies.length;
@@ -34,10 +35,6 @@ const MovieList = () => {
       </div>
     );
   }
-
-  const handleSort = (sortField: SortField) => {
-    dispatch(sortMovies(sortField));
-  };
 
   const movieCards = movies.map((movie: MovieObject) => {
     return <MovieCard {...movie} key={movie.id} />;

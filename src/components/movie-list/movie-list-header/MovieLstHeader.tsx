@@ -1,18 +1,13 @@
 import { SortField } from '../../../types/movies';
 import { Button, Space } from 'antd';
-import { sortMovies } from '../../../store/slices/movies-slice';
-import { useAppDispatch } from '../../../hooks/hooks';
+import { useSortMovies } from '../../../hooks/use-sort-movies';
 
 type Props = {
   onSort: (sortField: SortField) => void;
 };
 
 const MovieListHeader: React.FC<Props> = () => {
-  const dispatch = useAppDispatch();
-  const handleSort = (sortField: SortField) => {
-    dispatch(sortMovies(sortField));
-  };
-
+  const { handleSort } = useSortMovies();
   return (
     <div className="movie-list__header">
       <Space>

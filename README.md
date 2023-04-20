@@ -1,5 +1,6 @@
-Ссылка на данное приложение в Versel: kata-movies-app-yp.vercel.app
+Ссылка на данное приложение в Versel: 
 
+https://kata-movies-app-yp.vercel.app/
 
 
 # Getting Started with Create React App

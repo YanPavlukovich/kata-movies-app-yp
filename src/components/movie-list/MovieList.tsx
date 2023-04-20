@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { MovieObject, SortField } from '../../types/movies';
-import { Button, Space } from 'antd';
 
 import './movie-list.scss';
 
 import MovieCard from '../movie-card/MovieCard';
+import MovieListHeader from './movie-list-header/MovieLstHeader';
 import { Spin } from 'antd';
 import { selectLoading, selectMovies, fetchMovies, sortMovies } from '../../store/slices/movies-slice';
 
@@ -45,12 +45,7 @@ const MovieList = () => {
 
   return (
     <div className="movie-list">
-      <div className="movie-list__header">
-        <Space>
-          <Button onClick={() => handleSort('title' as SortField)}>Sort by title</Button>
-          <Button onClick={() => handleSort('releaseDate' as SortField)}>Sort by release date</Button>
-        </Space>
-      </div>
+      <MovieListHeader onSort={handleSort} />
       {movieCards}
     </div>
   );

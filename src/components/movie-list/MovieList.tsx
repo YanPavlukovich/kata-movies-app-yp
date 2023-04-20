@@ -47,12 +47,8 @@ const MovieList = () => {
     <div className="movie-list">
       <div className="movie-list__header">
         <Space>
-          <Button type="text" onClick={() => handleSort('title' as SortField)}>
-            Sort by title
-          </Button>
-          <Button type="text" onClick={() => handleSort('releaseDate' as SortField)}>
-            Sort by release date
-          </Button>
+          <Button onClick={() => handleSort('title' as SortField)}>Sort by title</Button>
+          <Button onClick={() => handleSort('releaseDate' as SortField)}>Sort by release date</Button>
         </Space>
       </div>
       {movieCards}

@@ -2,6 +2,7 @@ import { MovieObject } from '../../types/movies';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { getMovies } from '../../API/movies-api';
+import { SortField } from '../../types/movies';
 
 export type MoviesState = {
   query: string;
@@ -11,7 +12,6 @@ export type MoviesState = {
   loading: boolean;
 };
 
-type SortField = 'title' | 'releaseDate';
 
 
 const initialState: MoviesState = {

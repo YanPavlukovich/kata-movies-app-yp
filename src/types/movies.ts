@@ -27,4 +27,4 @@ export type MovieObject = {
   genreIds: number[];
 };
 
-export type SortField = 'releaseDate' | 'title';
+export type SortField = 'title' | 'releaseDate';

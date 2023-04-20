@@ -1,10 +1,10 @@
-import './app.scss';
-
 import Search from '../search-box/SearchBox';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import RatedMovies from '../movies-rated/MoviesRated';
 import ErrorText from '../error-text/error-text';
+
+import './app.scss';
 
 const App = () => {
   const items: TabsProps['items'] = [

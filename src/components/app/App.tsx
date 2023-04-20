@@ -4,8 +4,6 @@ import type { TabsProps } from 'antd';
 import RatedMovies from '../movies-rated/MoviesRated';
 import ErrorText from '../error-text/error-text';
 
-import './app.scss';
-
 const App = () => {
   const items: TabsProps['items'] = [
     {

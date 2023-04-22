@@ -1,3 +1,8 @@
+Ссылка на данное приложение в Versel: 
+
+https://kata-movies-app-yp.vercel.app/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

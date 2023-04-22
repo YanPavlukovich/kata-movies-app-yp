@@ -2,6 +2,8 @@ import { SortField } from '../../../types/movies';
 import { Button, Space } from 'antd';
 import { useSortMovies } from '../../../hooks/use-sort-movies';
 
+import './MovieListHeader.scss';
+
 type Props = {
   onSort: (sortField: SortField) => void;
 };

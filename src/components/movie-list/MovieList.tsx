@@ -41,9 +41,9 @@ const MovieList = () => {
   });
 
   return (
-    <div className="movie-list">
+    <div>
       <MovieListHeader onSort={handleSort} />
-      {movieCards}
+      <div className="movie-list">{movieCards}</div>
     </div>
   );
 };
